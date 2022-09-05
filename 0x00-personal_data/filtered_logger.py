@@ -17,6 +17,7 @@ class RedactingFormatter(logging.Formatter):
     def format(self, record: logging.LogRecord) -> str:
         NotImplementedError
 
+
 def filter_datum(fields: List[str],
                  redaction: str,
                  message: str,
@@ -28,3 +29,13 @@ def filter_datum(fields: List[str],
         message = re.sub(item + '=.*?' + separator, item + '=' +
                          redaction + separator, message)
         return message
+
+    for row in fetch_data:
+        fields = 'name={}; email={}; phone={}; ssn={}; password={}; ip={}; '\
+            'last_login={}; user_agent={};'
+        fields = fields.format(row[0], row[1], row[2], row[3],
+                               row[4], row[5], row[6], row[7])
+        logger.info(fields)
+
+    cur.close()
+    db.close()
