@@ -2,12 +2,15 @@
 """Creates class that manages API Authentication"""
 from typing import List, TypeVar
 from flask import request
+import re
 
 
 class Auth:
+    """Auth class"""
+
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
-    """Returns false path"""
-    if path is None or excluded_paths is None:
+        """Returns false path"""
+        if path is None or excluded_paths is None:
             return True
         for ex_path in excluded_paths:
             if "*" in ex_path:
@@ -19,12 +22,12 @@ class Auth:
         return True
 
     def authorization_header(self, request=None) -> str:
-    """Checks for the header"""
-    return (None
+        """Checks for the header"""
+        return (None
                 if request is None or 'Authorization' not in request.headers
                 else request.headers['Authorization']
                 )
 
     def current_user(self, request=None) -> TypeVar('User'):
-    """Returns none-request"""
-    return None
+        """Returns none-request"""
+        return None
