@@ -27,5 +27,5 @@ class BasicAuth(Auth):
         try:
             return (base64.b64decode(base64_authorization_header)
                     .decode('utf-8'))
-            except Exceptional:
+            except Exception:
                 return None
