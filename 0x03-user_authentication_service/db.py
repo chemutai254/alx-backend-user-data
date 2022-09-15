@@ -35,3 +35,24 @@ class DB:
         self._session.add(user)
         self._session.commit()
         return user
+
+    def find_user_by(self, **kwargs) -> User:
+        """ Returns the first row that matches the argument passed """
+        if kwargs is None:
+            raise InvalidRequestError
+        user = self._session.query(User).filter_by(**kwargs).first()
+        if user is None:
+            raise NoResultFound
+        return user
+
+    def update_user(self, user_id: int, **kwargs) -> None:
+        """
+        Locates the user to update, then update the user’s attributes
+        """
+        user = self.find_user_by(id=user_id)
+        for k, v in kwargs.items():
+            if not hasattr(user, k):
+                raise ValueError
+            else:
+                setattr(user, k, v)
+        self._session.commit()
